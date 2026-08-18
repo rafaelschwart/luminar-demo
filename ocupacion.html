@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LUMINAR - Ocupación, Contratos y Cobranza</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700&amp;family=DM+Sans:wght@400;500;700&amp;family=JetBrains+Mono:wght@500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary-fixed": "#001f27",
+                        "primary-fixed-dim": "#87d1e9",
+                        "primary": "#96e0f9",
+                        "on-error-container": "#ffdad6",
+                        "surface-dim": "#101415",
+                        "on-surface": "#e0e3e4",
+                        "tertiary": "#ffcba0",
+                        "secondary-container": "#434a4e",
+                        "surface-tint": "#87d1e9",
+                        "tertiary-fixed-dim": "#ffb878",
+                        "inverse-primary": "#05677d",
+                        "surface": "#101415",
+                        "on-tertiary-container": "#6e3e07",
+                        "surface-bright": "#363a3b",
+                        "on-tertiary-fixed-variant": "#6b3b04",
+                        "outline-variant": "#3f484c",
+                        "on-primary-container": "#005163",
+                        "on-primary-fixed-variant": "#004e5f",
+                        "outline": "#899296",
+                        "secondary-fixed-dim": "#c1c7cd",
+                        "tertiary-container": "#f0ab6d",
+                        "on-tertiary-fixed": "#2e1500",
+                        "on-secondary": "#2a3136",
+                        "on-error": "#690005",
+                        "on-surface-variant": "#bfc8cc",
+                        "secondary-fixed": "#dde3e9",
+                        "on-tertiary": "#4c2700",
+                        "background": "#101415",
+                        "inverse-surface": "#e0e3e4",
+                        "error-container": "#93000a",
+                        "on-secondary-container": "#b2b9be",
+                        "on-primary": "#003642",
+                        "surface-container-low": "#181c1e",
+                        "primary-fixed": "#b3ebff",
+                        "on-secondary-fixed-variant": "#41484c",
+                        "surface-container-lowest": "#0b0f10",
+                        "inverse-on-surface": "#2d3132",
+                        "on-secondary-fixed": "#161c20",
+                        "surface-variant": "#323537",
+                        "on-background": "#e0e3e4",
+                        "primary-container": "#7ac4dc",
+                        "surface-container": "#1c2022",
+                        "surface-container-high": "#272b2c",
+                        "surface-container-highest": "#323537",
+                        "tertiary-fixed": "#ffdcc1",
+                        "secondary": "#c1c7cd",
+                        "error": "#ffb4ab",
+                        "deep-blue": "#0B1B5C",
+                        "amber": "#FFC107"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "16px",
+                        "unit": "4px",
+                        "gutter": "16px",
+                        "margin-desktop": "32px",
+                        "panel-padding": "24px"
+                    },
+                    "fontFamily": {
+                        "body-sm": ["DM Sans"],
+                        "headline-lg": ["Outfit"],
+                        "data-display": ["JetBrains Mono"],
+                        "body-md": ["DM Sans"],
+                        "body-lg": ["DM Sans"],
+                        "headline-md": ["Outfit"],
+                        "label-caps": ["JetBrains Mono"],
+                        "headline-sm": ["Outfit"]
+                    },
+                    "fontSize": {
+                        "body-sm": ["14px", { "lineHeight": "1.4", "letterSpacing": "0", "fontWeight": "400" }],
+                        "headline-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "data-display": ["20px", { "lineHeight": "1", "letterSpacing": "-0.02em", "fontWeight": "500" }],
+                        "body-md": ["16px", { "lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400" }],
+                        "headline-md": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "label-caps": ["11px", { "lineHeight": "1", "letterSpacing": "0.15em", "fontWeight": "700" }],
+                        "headline-sm": ["24px", { "lineHeight": "1.2", "letterSpacing": "0", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: #111111; color: #e0e3e4; margin: 0; padding: 0; }
+        .table-row { border-bottom: 1px solid #2C2F34; transition: background-color 100ms linear; }
+        .table-row:hover { background-color: #1F2124; }
+        .monospaced { font-family: 'JetBrains Mono', monospace; }
+        .chip { border-left: 3px solid; padding-left: 8px; }
+        .chip-green { border-color: #4CAF50; color: #4CAF50; }
+        .chip-amber { border-color: #FFC107; color: #FFC107; }
+        .chip-red { border-color: #F44336; color: #F44336; }
+        .chip-gray { border-color: #899296; color: #899296; }
+        
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #111111; }
+        ::-webkit-scrollbar-thumb { background: #2C2F34; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #3f484c; }
+    </style>
+</head>
+<body class="flex min-h-screen">
+<!-- SideNavBar -->
+<nav class="fixed left-0 top-0 h-full w-[220px] border-r border-outline-variant bg-surface-container-high dark:bg-surface-container-high flex flex-col py-panel-padding z-50">
+<div class="px-4 mb-8">
+<div class="flex items-center gap-3">
+<img src="data:image/jpeg;base64,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" alt="LMNR" style="width:44px;height:44px;border-radius:3px;display:block"/>
+<div>
+<h1 style="font-family:'Outfit',sans-serif;color:#F0F2F3;font-weight:500;font-size:15px;letter-spacing:0.18em;margin:0">LUMINAR</h1>
+<p style="font-family:'JetBrains Mono',monospace;color:#8A9196;font-size:8px;letter-spacing:0.14em;margin:2px 0 0">// PANTALLAS LED PUBLICITARIAS</p>
+</div>
+</div>
+</div>
+<div class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-colors duration-100" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-label-caps text-label-caps">DIAGNÓSTICO</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-colors duration-100" href="#">
+<span class="material-symbols-outlined">view_kanban</span>
+<span class="font-label-caps text-label-caps">PIPELINE</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-primary font-bold border-l-2 border-primary bg-surface-container-highest scale-[0.99] transition-transform duration-100" href="#">
+<span class="material-symbols-outlined">monitor</span>
+<span class="font-label-caps text-label-caps">PANTALLAS</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-colors duration-100" href="#">
+<span class="material-symbols-outlined">summarize</span>
+<span class="font-label-caps text-label-caps">REPORTES</span>
+</a>
+</div>
+<div class="mt-auto space-y-1">
+
+
+</div>
+<div style="padding:14px 16px;border-top:1px solid #2C2F34">
+<p style="font-family:'JetBrains Mono',monospace;color:#F0F2F3;font-size:11px;margin:0">Beatriz</p>
+<p style="font-family:'DM Sans',sans-serif;color:#8A9196;font-size:11px;margin:2px 0 0">Direcci&oacute;n comercial</p>
+</div></nav>
+<!-- TopAppBar -->
+<header class="fixed top-0 right-0 w-[calc(100%-220px)] h-16 border-b border-outline-variant bg-surface dark:bg-surface flex justify-between items-center px-margin-desktop ml-[220px] z-40">
+<div class="flex items-center gap-6">
+<span class="font-label-caps text-label-caps text-on-surface-variant">// LUMINAR &middot; OPERACIONES</span>
+<div class="flex gap-4">
+
+
+</div>
+</div>
+<div class="flex items-center gap-4 text-on-surface-variant">
+<span class="material-symbols-outlined cursor-pointer hover:text-primary transition-colors duration-100">notifications</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-primary transition-colors duration-100">terminal</span>
+</div>
+</header>
+<!-- Main Content -->
+<main class="ml-[220px] mt-16 pt-8 px-margin-desktop pb-24 w-full flex gap-gutter min-h-screen">
+<!-- Canvas Left (Main Data) -->
+<div class="flex-1 flex flex-col gap-8">
+<!-- Header Section -->
+<div class="flex justify-between items-end border-b border-outline-variant pb-6">
+<div>
+<div class="font-label-caps text-label-caps text-outline mb-2">// INVENTARIO · AGOSTO 2026</div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface">La ocupación que hoy vive en la <span class="text-primary italic">memoria</span>.</h2>
+</div>
+<div class="border border-[#FFC107] text-[#FFC107] font-label-caps text-label-caps px-3 py-1 rounded-sm bg-transparent flex items-center gap-2">
+<span class="w-2 h-2 bg-[#FFC107] block"></span>
+                    // DATOS DE MUESTRA
+                </div>
+</div>
+<!-- Metrics Bento -->
+<div class="grid grid-cols-4 gap-4">
+<div class="border border-outline-variant bg-[#17181A] p-4 flex flex-col justify-between">
+<div class="font-label-caps text-label-caps text-outline mb-4">// INGRESO CONTRATADO</div>
+<div class="font-data-display text-data-display text-on-surface monospaced">$29,650</div>
+</div>
+<div class="border border-outline-variant bg-[#17181A] p-4 flex flex-col justify-between">
+<div class="font-label-caps text-label-caps text-outline mb-4">// COBRADO</div>
+<div class="font-data-display text-data-display text-on-surface monospaced">$25,450</div>
+</div>
+<div class="border border-outline-variant bg-[#17181A] p-4 flex flex-col justify-between">
+<div class="font-label-caps text-label-caps text-error mb-4">// EN MORA</div>
+<div class="font-data-display text-data-display text-error monospaced">$4,200</div>
+</div>
+<div class="border border-[#FFC107]/30 bg-[#17181A] p-4 flex flex-col justify-between">
+<div class="font-label-caps text-label-caps text-[#FFC107] mb-4">// VENCEN EN 30 DÍAS</div>
+<div class="font-data-display text-data-display text-[#FFC107] monospaced">4 contratos</div>
+</div>
+</div>
+<!-- Data Table -->
+<div class="border border-outline-variant bg-[#17181A] flex flex-col">
+<div class="grid grid-cols-8 gap-4 p-4 border-b border-outline-variant font-label-caps text-label-caps text-outline bg-[#1F2124]">
+<div>SITIO</div>
+<div>FORMATO</div>
+<div>MARCAS</div>
+<div>OCUPACIÓN</div>
+<div>TARIFA</div>
+<div>CONTRATADO</div>
+<div>COBRADO</div>
+<div>ESTADO</div>
+</div>
+<!-- Row 1 -->
+<div class="grid grid-cols-8 gap-4 p-4 table-row items-center font-body-sm text-body-sm">
+<div class="text-on-surface font-medium">CCCT</div>
+<div class="text-on-surface-variant">36.84 m²</div>
+<div class="monospaced text-on-surface">14</div>
+<div class="w-full pr-4">
+<div class="flex justify-between mb-1 font-label-caps text-[9px]"><span class="text-primary">93%</span></div>
+<div class="w-full h-[6px] bg-[#2C2F34] relative"><div class="absolute left-0 top-0 h-full bg-primary" style="width: 93%;"></div></div>
+</div>
+<div class="monospaced text-on-surface-variant">$1,000</div>
+<div class="monospaced text-on-surface">$14,000</div>
+<div class="monospaced text-on-surface">$14,000</div>
+<div class="font-label-caps text-[10px] chip chip-green">Al día</div>
+</div>
+<!-- Row 2 -->
+<div class="grid grid-cols-8 gap-4 p-4 table-row items-center font-body-sm text-body-sm bg-[#1F2124]/30">
+<div class="text-on-surface font-medium">Altamira</div>
+<div class="text-on-surface-variant">3 pantallas</div>
+<div class="monospaced text-on-surface">3</div>
+<div class="w-full pr-4">
+<div class="flex justify-between mb-1 font-label-caps text-[9px]"><span class="text-primary">60%</span></div>
+<div class="w-full h-[6px] bg-[#2C2F34] relative"><div class="absolute left-0 top-0 h-full bg-primary" style="width: 60%;"></div></div>
+</div>
+<div class="monospaced text-on-surface-variant">$3,000</div>
+<div class="monospaced text-on-surface">$9,000</div>
+<div class="monospaced text-on-surface">$6,000</div>
+<div class="font-label-caps text-[10px] chip chip-red">Mora 12 días</div>
+</div>
+<!-- Row 3 -->
+<div class="grid grid-cols-8 gap-4 p-4 table-row items-center font-body-sm text-body-sm">
+<div class="text-on-surface font-medium">C.C. El Recreo</div>
+<div class="text-on-surface-variant">16 x 4 m</div>
+<div class="monospaced text-on-surface">2</div>
+<div class="w-full pr-4">
+<div class="flex justify-between mb-1 font-label-caps text-[9px]"><span class="text-primary">40%</span></div>
+<div class="w-full h-[6px] bg-[#2C2F34] relative"><div class="absolute left-0 top-0 h-full bg-primary" style="width: 40%;"></div></div>
+</div>
+<div class="monospaced text-on-surface-variant">$2,500</div>
+<div class="monospaced text-on-surface">$5,000</div>
+<div class="monospaced text-on-surface">$5,000</div>
+<div class="font-label-caps text-[10px] chip chip-green">Al día</div>
+</div>
+<!-- Row 4 -->
+<div class="grid grid-cols-8 gap-4 p-4 table-row items-center font-body-sm text-body-sm">
+<div class="text-on-surface font-medium">Circuito Taxi</div>
+<div class="text-on-surface-variant">60 pantallas</div>
+<div class="monospaced text-on-surface">1</div>
+<div class="w-full pr-4">
+<div class="flex justify-between mb-1 font-label-caps text-[9px]"><span class="text-primary">100%</span></div>
+<div class="w-full h-[6px] bg-[#2C2F34] relative"><div class="absolute left-0 top-0 h-full bg-primary" style="width: 100%;"></div></div>
+</div>
+<div class="monospaced text-on-surface-variant">$450</div>
+<div class="monospaced text-on-surface">$450</div>
+<div class="monospaced text-on-surface">$450</div>
+<div class="font-label-caps text-[10px] chip chip-green">Al día</div>
+</div>
+<!-- Row 5 -->
+<div class="grid grid-cols-8 gap-4 p-4 table-row items-center font-body-sm text-body-sm">
+<div class="text-on-surface font-medium">Moto Ads</div>
+<div class="text-on-surface-variant">30 unidades</div>
+<div class="monospaced text-on-surface">8 motos</div>
+<div class="w-full pr-4">
+<div class="flex justify-between mb-1 font-label-caps text-[9px]"><span class="text-primary">27%</span></div>
+<div class="w-full h-[6px] bg-[#2C2F34] relative"><div class="absolute left-0 top-0 h-full bg-primary" style="width: 27%;"></div></div>
+</div>
+<div class="monospaced text-on-surface-variant">$150</div>
+<div class="monospaced text-on-surface">$1,200</div>
+<div class="monospaced text-on-surface">$0</div>
+<div class="font-label-caps text-[10px] chip chip-amber">Por cobrar</div>
+</div>
+<!-- Row 6 -->
+<div class="grid grid-cols-8 gap-4 p-4 table-row items-center font-body-sm text-body-sm">
+<div class="text-on-surface font-medium">Hombre Valla</div>
+<div class="text-on-surface-variant">4 individuos</div>
+<div class="monospaced text-on-surface">0</div>
+<div class="w-full pr-4">
+<div class="flex justify-between mb-1 font-label-caps text-[9px]"><span class="text-outline-variant">0%</span></div>
+<div class="w-full h-[6px] bg-[#2C2F34] relative"></div>
+</div>
+<div class="monospaced text-on-surface-variant">$450</div>
+<div class="monospaced text-on-surface">$0</div>
+<div class="monospaced text-on-surface">$0</div>
+<div class="font-label-caps text-[10px] chip chip-gray">Libre</div>
+</div>
+</div>
+<!-- Footer Actions -->
+<div class="flex flex-col items-start mt-4 gap-2">
+<button class="border border-primary text-primary px-4 py-2 font-label-caps text-label-caps hover:bg-primary/10 transition-colors duration-100 flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">download</span>
+                    Exportar mes para contabilidad
+                </button>
+<span class="font-body-sm text-body-sm text-outline-variant">El libro contable queda con su contador. Aquí vive la cobranza.</span>
+</div>
+</div>
+<!-- Right Panel (Blue Context) -->
+<div class="w-[320px] bg-deep-blue p-6 border-l border-outline-variant flex flex-col gap-6">
+<div>
+<div class="font-label-caps text-label-caps text-primary/70 mb-4 border-b border-primary/20 pb-2">// CALENDARIO DE VENCIMIENTOS</div>
+<div class="flex flex-col gap-0">
+<div class="py-3 border-b border-primary/10 flex justify-between items-center">
+<div class="font-body-sm text-body-sm text-on-surface">Altamira</div>
+<div class="flex items-center gap-3">
+<span class="font-label-caps text-[10px] text-[#FFC107]">12 DÍAS</span>
+<span class="monospaced text-body-sm text-[#FFC107]">$3,000</span>
+</div>
+</div>
+<div class="py-3 border-b border-primary/10 flex justify-between items-center">
+<div class="font-body-sm text-body-sm text-on-surface">CCCT</div>
+<div class="flex items-center gap-3">
+<span class="font-label-caps text-[10px] text-primary/50">19 DÍAS</span>
+</div>
+</div>
+<div class="py-3 border-b border-primary/10 flex justify-between items-center">
+<div class="font-body-sm text-body-sm text-on-surface">CCCT</div>
+<div class="flex items-center gap-3">
+<span class="font-label-caps text-[10px] text-primary/50">24 DÍAS</span>
+</div>
+</div>
+<div class="py-3 flex justify-between items-center">
+<div class="font-body-sm text-body-sm text-on-surface">Circuito Taxi</div>
+<div class="flex items-center gap-3">
+<span class="font-label-caps text-[10px] text-primary/50">28 DÍAS</span>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-auto border border-primary/20 bg-black/20 p-4 relative overflow-hidden">
+<div class="absolute -right-4 -top-4 opacity-10">
+<span class="material-symbols-outlined" style="font-size: 80px;">mail</span>
+</div>
+<div class="font-label-caps text-label-caps text-primary mb-2">// RECORDATORIO AUTOMÁTICO</div>
+<p class="font-body-sm text-body-sm text-on-surface/80 italic leading-relaxed mb-4">
+                    "que no te quedes en negro, que tu marca siga dominando la ciudad"
+                </p>
+<div class="font-label-caps text-[10px] text-outline-variant">NOTA: SE ENVÍA 15 DÍAS ANTES.</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="fixed bottom-0 right-0 w-[calc(100%-220px)] border-t border-outline-variant bg-surface-dim dark:bg-surface-dim flex justify-between items-center px-margin-desktop py-2 ml-[220px] z-40">
+<span class="font-label-caps text-label-caps text-on-surface-variant">// LUMINAR &middot; OPERACIONES</span>
+<div class="flex gap-4 font-label-caps text-label-caps text-tertiary dark:text-tertiary">
+
+<span>// SISTEMA POR ARQENTIA</span>
+</div>
+</footer>
+</body></html>

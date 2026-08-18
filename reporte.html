@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Reporte al Anunciante - LMNR</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&amp;family=JetBrains+Mono:wght@500;700&amp;family=Outfit:wght@500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-primary-fixed": "#001f27",
+              "primary-fixed-dim": "#87d1e9",
+              "primary": "#96e0f9",
+              "on-error-container": "#ffdad6",
+              "surface-dim": "#101415",
+              "on-surface": "#e0e3e4",
+              "tertiary": "#ffcba0",
+              "secondary-container": "#434a4e",
+              "surface-tint": "#87d1e9",
+              "tertiary-fixed-dim": "#ffb878",
+              "inverse-primary": "#05677d",
+              "surface": "#101415",
+              "on-tertiary-container": "#6e3e07",
+              "surface-bright": "#363a3b",
+              "on-tertiary-fixed-variant": "#6b3b04",
+              "outline-variant": "#3f484c",
+              "on-primary-container": "#005163",
+              "on-primary-fixed-variant": "#004e5f",
+              "outline": "#899296",
+              "secondary-fixed-dim": "#c1c7cd",
+              "tertiary-container": "#f0ab6d",
+              "on-tertiary-fixed": "#2e1500",
+              "on-secondary": "#2a3136",
+              "on-error": "#690005",
+              "on-surface-variant": "#bfc8cc",
+              "secondary-fixed": "#dde3e9",
+              "on-tertiary": "#4c2700",
+              "background": "#101415",
+              "inverse-surface": "#e0e3e4",
+              "error-container": "#93000a",
+              "on-secondary-container": "#b2b9be",
+              "on-primary": "#003642",
+              "surface-container-low": "#181c1e",
+              "primary-fixed": "#b3ebff",
+              "on-secondary-fixed-variant": "#41484c",
+              "surface-container-lowest": "#0b0f10",
+              "inverse-on-surface": "#2d3132",
+              "on-secondary-fixed": "#161c20",
+              "surface-variant": "#323537",
+              "on-background": "#e0e3e4",
+              "primary-container": "#7ac4dc",
+              "surface-container": "#1c2022",
+              "surface-container-high": "#272b2c",
+              "surface-container-highest": "#323537",
+              "tertiary-fixed": "#ffdcc1",
+              "secondary": "#c1c7cd",
+              "error": "#ffb4ab",
+              "status-amber": "#ffbf00",
+              "status-green": "#00c853"
+            },
+            borderRadius: {
+              DEFAULT: "0.25rem",
+              lg: "0.5rem",
+              xl: "0.75rem",
+              full: "9999px"
+            },
+            spacing: {
+              "margin-mobile": "16px",
+              "unit": "4px",
+              "gutter": "16px",
+              "margin-desktop": "32px",
+              "panel-padding": "24px"
+            },
+            fontFamily: {
+              "body-sm": ["DM Sans"],
+              "headline-lg": ["Outfit"],
+              "data-display": ["JetBrains Mono"],
+              "body-md": ["DM Sans"],
+              "body-lg": ["DM Sans"],
+              "headline-md": ["Outfit"],
+              "label-caps": ["JetBrains Mono"],
+              "headline-sm": ["Outfit"]
+            },
+            fontSize: {
+              "body-sm": ["14px", { lineHeight: "1.4", letterSpacing: "0", fontWeight: "400" }],
+              "headline-lg": ["48px", { lineHeight: "1.1", letterSpacing: "-0.02em", fontWeight: "700" }],
+              "data-display": ["20px", { lineHeight: "1", letterSpacing: "-0.02em", fontWeight: "500" }],
+              "body-md": ["16px", { lineHeight: "1.5", letterSpacing: "0", fontWeight: "400" }],
+              "body-lg": ["18px", { lineHeight: "1.6", letterSpacing: "0", fontWeight: "400" }],
+              "headline-md": ["32px", { lineHeight: "1.2", letterSpacing: "-0.01em", fontWeight: "600" }],
+              "label-caps": ["11px", { lineHeight: "1", letterSpacing: "0.15em", fontWeight: "700" }],
+              "headline-sm": ["24px", { lineHeight: "1.2", letterSpacing: "0", fontWeight: "500" }]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        body { background-color: #111111; color: #e0e3e4; }
+        .grid-bg { background-image: linear-gradient(to right, #1F2124 1px, transparent 1px), linear-gradient(to bottom, #1F2124 1px, transparent 1px); background-size: 40px 40px; background-position: center center; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #111111; }
+        ::-webkit-scrollbar-thumb { background: #3f484c; border-radius: 0; }
+        ::-webkit-scrollbar-thumb:hover { background: #899296; }
+    </style>
+</head>
+<body class="font-body-md text-body-md overflow-x-hidden selection:bg-primary-container selection:text-background min-h-screen grid-bg relative">
+<!-- Global Background Elements -->
+<div class="fixed inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-surface-container-high/40 via-background to-background z-[-1]"></div>
+<!-- SideNavBar -->
+<nav class="fixed left-0 top-0 h-full w-[220px] border-r border-outline-variant bg-surface-container-high dark:bg-surface-container-high z-40 flex flex-col h-full py-panel-padding">
+<div class="px-6 mb-12">
+<div class="flex items-center gap-3">
+<img src="data:image/jpeg;base64,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" alt="LMNR" style="width:44px;height:44px;border-radius:3px;display:block"/>
+<div>
+<h1 style="font-family:'Outfit',sans-serif;color:#F0F2F3;font-weight:500;font-size:15px;letter-spacing:0.18em;margin:0">LUMINAR</h1>
+<p style="font-family:'JetBrains Mono',monospace;color:#8A9196;font-size:8px;letter-spacing:0.14em;margin:2px 0 0">// PANTALLAS LED PUBLICITARIAS</p>
+</div>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto">
+<ul class="space-y-1">
+<li>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-colors duration-100 font-label-caps text-label-caps" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="analytics">analytics</span>
+                        DIAGNÓSTICO
+                    </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-colors duration-100 font-label-caps text-label-caps" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="view_kanban">view_kanban</span>
+                        PIPELINE
+                    </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-colors duration-100 font-label-caps text-label-caps" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="monitor">monitor</span>
+                        PANTALLAS
+                    </a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 text-primary font-bold border-l-2 border-primary bg-surface-container-highest scale-[0.99] transition-transform duration-100 font-label-caps text-label-caps" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="summarize" style="font-variation-settings: 'FILL' 1;">summarize</span>
+                        REPORTES
+                    </a>
+</li>
+</ul>
+</div>
+<div class="mt-auto px-0 pt-6">
+<ul class="space-y-1">
+<li>
+
+</li>
+<li>
+
+</li>
+</ul>
+</div>
+<div style="padding:14px 16px;border-top:1px solid #2C2F34">
+<p style="font-family:'JetBrains Mono',monospace;color:#F0F2F3;font-size:11px;margin:0">Beatriz</p>
+<p style="font-family:'DM Sans',sans-serif;color:#8A9196;font-size:11px;margin:2px 0 0">Direcci&oacute;n comercial</p>
+</div></nav>
+<!-- TopAppBar -->
+<header class="fixed top-0 right-0 w-[calc(100%-220px)] h-16 border-b border-outline-variant bg-surface/90 backdrop-blur-md z-30 flex justify-between items-center px-margin-desktop ml-[220px]">
+<div class="flex items-center gap-6">
+<span class="font-label-caps text-label-caps text-on-surface-variant">// LUMINAR &middot; OPERACIONES</span>
+<nav class="hidden md:flex items-center gap-6">
+
+
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant hover:text-primary transition-colors duration-100">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-colors duration-100">
+<span class="material-symbols-outlined" data-icon="terminal">terminal</span>
+</button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-[220px] pt-16 pb-24 min-h-screen flex flex-col">
+<div class="flex-1 max-w-[1400px] w-full mx-auto px-margin-desktop py-12 flex flex-col gap-12">
+<!-- Report Header Section -->
+<section class="flex flex-col gap-6">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-4">
+<span class="font-label-caps text-label-caps text-on-surface-variant tracking-wider uppercase">
+                            // REPORTE DE ENTREGA · 01 AL 31 DE AGOSTO DE 2026
+                        </span>
+<div class="flex items-center px-3 py-1 border-l-2 border-status-amber bg-status-amber/10 text-status-amber font-label-caps text-label-caps">
+                            // DATOS DE MUESTRA
+                        </div>
+</div>
+</div>
+<div class="flex flex-col gap-2">
+<p class="font-label-caps text-label-caps text-tertiary uppercase tracking-widest">
+                        ANUNCIANTE
+                    </p>
+<h2 class="font-headline-lg text-headline-lg text-on-surface">
+                        Distribuidora Napa JC, C.A
+                    </h2>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mt-4 max-w-4xl">
+                    Su marca corrió <span class="text-primary italic">7,130 veces</span>.
+                </h3>
+</section>
+<!-- Metrics Bento Grid -->
+<section class="grid grid-cols-1 md:grid-cols-4 gap-4">
+<div class="border border-outline-variant bg-[#17181A] p-6 flex flex-col justify-between min-h-[140px]">
+<span class="font-label-caps text-label-caps text-on-surface-variant mb-4">// REPRODUCCIONES EJECUTADAS</span>
+<span class="font-data-display text-headline-md text-on-surface">7,130</span>
+</div>
+<div class="border border-outline-variant bg-[#17181A] p-6 flex flex-col justify-between min-h-[140px]">
+<span class="font-label-caps text-label-caps text-on-surface-variant mb-4">// REPRODUCCIONES CONTRATADAS</span>
+<span class="font-data-display text-headline-md text-on-surface">7,130</span>
+</div>
+<div class="border border-outline-variant bg-[#17181A] p-6 flex flex-col justify-between min-h-[140px]">
+<span class="font-label-caps text-label-caps text-on-surface-variant mb-4">// CUMPLIMIENTO</span>
+<span class="font-data-display text-headline-md text-status-green">100%</span>
+</div>
+<div class="border border-outline-variant bg-[#17181A] p-6 flex flex-col justify-between min-h-[140px]">
+<span class="font-label-caps text-label-caps text-on-surface-variant mb-4">// IMPACTOS ESTIMADOS</span>
+<span class="font-data-display text-headline-md text-on-surface">620,000</span>
+</div>
+</section>
+<!-- Detailed Table Section -->
+<section class="border border-outline-variant bg-[#17181A] flex flex-col">
+<div class="p-6 border-b border-outline-variant">
+<h4 class="font-label-caps text-label-caps text-on-surface-variant">// DESGLOSE POR SITIO</h4>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-outline-variant bg-[#1F2124]">
+<th class="py-4 px-6 font-label-caps text-label-caps text-on-surface-variant whitespace-nowrap">SITIO</th>
+<th class="py-4 px-6 font-label-caps text-label-caps text-on-surface-variant whitespace-nowrap border-l border-outline-variant/30">DÍAS EN AIRE</th>
+<th class="py-4 px-6 font-label-caps text-label-caps text-on-surface-variant whitespace-nowrap border-l border-outline-variant/30">REPRODUCCIONES</th>
+<th class="py-4 px-6 font-label-caps text-label-caps text-on-surface-variant whitespace-nowrap border-l border-outline-variant/30">IMPACTOS EST.</th>
+<th class="py-4 px-6 font-label-caps text-label-caps text-on-surface-variant whitespace-nowrap border-l border-outline-variant/30">HORARIO</th>
+</tr>
+</thead>
+<tbody class="font-data-display text-[14px]">
+<tr class="border-b border-outline-variant hover:bg-[#1F2124] transition-colors duration-100">
+<td class="py-4 px-6 text-on-surface">CCCT</td>
+<td class="py-4 px-6 text-on-surface-variant border-l border-outline-variant/30">31 días</td>
+<td class="py-4 px-6 text-primary border-l border-outline-variant/30">7,130</td>
+<td class="py-4 px-6 text-on-surface-variant border-l border-outline-variant/30">620,000</td>
+<td class="py-4 px-6 text-on-surface-variant border-l border-outline-variant/30">06:00 - 23:00</td>
+</tr>
+<tr class="border-b border-outline-variant hover:bg-[#1F2124] transition-colors duration-100 opacity-50">
+<td class="py-4 px-6 text-on-surface">Altamira</td>
+<td class="py-4 px-6 text-on-surface-variant border-l border-outline-variant/30">0</td>
+<td class="py-4 px-6 text-on-surface-variant border-l border-outline-variant/30">No contratado</td>
+<td class="py-4 px-6 text-on-surface-variant border-l border-outline-variant/30">-</td>
+<td class="py-4 px-6 text-on-surface-variant border-l border-outline-variant/30">-</td>
+</tr>
+<tr class="hover:bg-[#1F2124] transition-colors duration-100 opacity-50">
+<td class="py-4 px-6 text-on-surface">C.C. El Recreo</td>
+<td class="py-4 px-6 text-on-surface-variant border-l border-outline-variant/30">0</td>
+<td class="py-4 px-6 text-on-surface-variant border-l border-outline-variant/30">No contratado</td>
+<td class="py-4 px-6 text-on-surface-variant border-l border-outline-variant/30">-</td>
+<td class="py-4 px-6 text-on-surface-variant border-l border-outline-variant/30">-</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- Side by Side Maps -->
+<section class="grid grid-cols-1 xl:grid-cols-2 gap-6">
+<!-- Moto Fleet Map -->
+<div class="border border-outline-variant bg-[#17181A] flex flex-col h-[600px] relative">
+<div class="absolute top-6 left-6 right-6 flex justify-between items-start z-10 pointer-events-none">
+<div class="bg-background/90 p-3 border border-outline-variant backdrop-blur-sm">
+<h4 class="font-label-caps text-label-caps text-on-surface">// COBERTURA DE FLOTA MOTO</h4>
+</div>
+<div class="flex items-center px-3 py-1 border-l-2 border-status-amber bg-status-amber/10 text-status-amber font-label-caps text-label-caps backdrop-blur-sm">
+                            // ESTRUCTURA · PENDIENTE DE FUENTE
+                        </div>
+</div>
+<div class="flex-1 relative w-full h-full grayscale opacity-70">
+<div class="absolute inset-0 bg-cover bg-center" data-alt="A highly detailed, schematic top-down map of Caracas city layout rendered in a dark-mode technical aesthetic. The streets form a complex grid against a deep black background (#111111). Vibrant cyan (#7AC4DC) heat map zones are overlaid in key commercial areas, glowing slightly to indicate high activity. The style is strictly brutalist UI, high fidelity, looking like a professional logistics dashboard." data-location="Caracas" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuASsnHMNDah038D-XjwRuGJBT6iRat8310HgceIGZXiiCZI-Dai6qFwLRygVm_EzYCXNiYLjIxGR9FDQArrq0YZhFKLMkX34VptNhzKCxR3SKdW80-e8-9aC--GQjfMEu-tSDidU-Pb7nglj9JewirIldTfYgjCTtYJaQaLQCS06UJ9t2_1ILclun2PqAsHOs4-aKUf-TcW1_7CQnIFch-w0ZXz9radkXlpXccoDxHEEg2mJOh_uF579w')"></div>
+</div>
+<div class="absolute bottom-6 left-6 right-6 grid grid-cols-3 gap-2 z-10">
+<div class="bg-background/90 p-4 border border-outline-variant backdrop-blur-sm">
+<span class="font-label-caps text-label-caps text-on-surface-variant block mb-2">KILÓMETROS RECORRIDOS</span>
+<span class="font-data-display text-[18px] text-on-surface">--</span>
+</div>
+<div class="bg-background/90 p-4 border border-outline-variant backdrop-blur-sm">
+<span class="font-label-caps text-label-caps text-on-surface-variant block mb-2">HORAS ACTIVAS</span>
+<span class="font-data-display text-[18px] text-on-surface">--</span>
+</div>
+<div class="bg-background/90 p-4 border border-outline-variant backdrop-blur-sm">
+<span class="font-label-caps text-label-caps text-on-surface-variant block mb-2">ZONAS CUBIERTAS</span>
+<span class="font-data-display text-[18px] text-on-surface">--</span>
+</div>
+</div>
+</div>
+<!-- Taxi Circuit Map -->
+<div class="border border-outline-variant bg-[#17181A] flex flex-col h-[600px] relative">
+<div class="absolute top-6 left-6 right-6 flex justify-between items-start z-10 pointer-events-none">
+<div class="bg-background/90 p-3 border border-outline-variant backdrop-blur-sm">
+<h4 class="font-label-caps text-label-caps text-on-surface">// COBERTURA DE RUTA · CIRCUITO TAXI</h4>
+</div>
+<div class="flex items-center px-3 py-1 border-l-2 border-status-amber bg-status-amber/10 text-status-amber font-label-caps text-label-caps backdrop-blur-sm">
+                            // ESTRUCTURA · PENDIENTE DE FUENTE
+                        </div>
+</div>
+<div class="flex-1 relative w-full h-full grayscale opacity-70">
+<div class="absolute inset-0 bg-cover bg-center" data-alt="A highly detailed, schematic top-down map of Caracas city layout rendered in a dark-mode technical aesthetic. The streets form a complex grid against a deep black background (#111111). Sharp, precise cyan (#7AC4DC) vector lines trace specific transit routes across the city map. The style is strictly brutalist functionalism, high fidelity, representing a tactical transportation tracking system." data-location="Caracas" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuASsnHMNDah038D-XjwRuGJBT6iRat8310HgceIGZXiiCZI-Dai6qFwLRygVm_EzYCXNiYLjIxGR9FDQArrq0YZhFKLMkX34VptNhzKCxR3SKdW80-e8-9aC--GQjfMEu-tSDidU-Pb7nglj9JewirIldTfYgjCTtYJaQaLQCS06UJ9t2_1ILclun2PqAsHOs4-aKUf-TcW1_7CQnIFch-w0ZXz9radkXlpXccoDxHEEg2mJOh_uF579w')"></div>
+</div>
+<div class="absolute bottom-6 left-6 right-6 grid grid-cols-1 z-10">
+<div class="bg-background/90 p-4 border border-outline-variant backdrop-blur-sm">
+<span class="font-label-caps text-label-caps text-on-surface-variant block mb-2">USUARIOS ALCANZADOS</span>
+<span class="font-data-display text-[18px] text-on-surface">--</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Report Footer & Actions -->
+<section class="flex flex-col md:flex-row justify-between items-center gap-6 pt-12 border-t border-outline-variant">
+<p class="font-label-caps text-label-caps text-on-surface-variant max-w-2xl">
+                    // FUENTE: REPRODUCCIONES TOMADAS DEL LOG DEL REPRODUCTOR. IMPACTOS ESTIMADOS SEGÚN AFORO DECLARADO.
+                </p>
+<button class="bg-primary-container text-background font-label-caps text-label-caps px-8 py-4 hover:bg-primary transition-colors duration-100 flex items-center gap-2 rounded-[2px]">
+<span class="material-symbols-outlined text-[18px]" data-icon="download">download</span>
+                    DESCARGAR PDF DEL MES
+                </button>
+</section>
+</div>
+</main>
+<!-- Global Footer -->
+<footer class="fixed bottom-0 right-0 w-[calc(100%-220px)] border-t border-outline-variant bg-surface-dim dark:bg-surface-dim z-30 flex justify-between items-center px-margin-desktop py-3 ml-[220px]">
+<div class="font-label-caps text-label-caps text-on-surface-variant">
+             // LUMINAR · OPERACIONES | // SISTEMA POR ARQENTIA
+        </div>
+<div class="flex gap-6 font-label-caps text-label-caps text-tertiary">
+
+<span>// SISTEMA POR ARQENTIA</span>
+</div>
+</footer>
+</body></html>
