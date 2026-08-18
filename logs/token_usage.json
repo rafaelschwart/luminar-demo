@@ -1,0 +1,17 @@
+[
+  {
+    "id": "exec_1787025683436_026",
+    "timestamp": 1787025683436,
+    "date": "2026-08-18",
+    "input": 2950,
+    "output": 1773,
+    "cacheCreate": 0,
+    "cacheRead": 0,
+    "total": 4723,
+    "duration": 178254,
+    "instruction": "despliega en \nluminar.demo.arqentia.com \neso esta en github como un comodin the cname. \nAsi lo podem",
+    "projectPath": "c:/dev/caso 009 - luminar/demo/site",
+    "projectName": "site",
+    "mode": "all"
+  }
+]
