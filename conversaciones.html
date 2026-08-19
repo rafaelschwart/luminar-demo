@@ -95,6 +95,32 @@ table.t td.num{font-family:'JetBrains Mono',monospace;text-align:right}
 .btn:hover{filter:brightness(1.08)}.btn:active{transform:translateY(1px)}
 .btn-f{background:transparent;color:var(--accent);border:1px solid color-mix(in srgb,var(--accent) 55%,transparent)}
 #demo-toast{opacity:0;transition:opacity .25s}
+/* calendario */
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;padding:12px 14px 14px}
+.cal-dow{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.1em;color:var(--text2);text-transform:uppercase;text-align:center;padding:2px 0}
+.cal-d{min-height:66px;background:var(--panel);border-radius:8px;padding:4px 5px;border:1px solid transparent;position:relative;overflow:hidden}
+.cal-d .n{font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--text2);display:block;text-align:right}
+.cal-d.otro{opacity:.32}
+.cal-d.hoy{border-color:var(--accent)}
+.cal-d.hoy .n{color:var(--accent);font-weight:700}
+.cal-ev{display:block;font-family:'JetBrains Mono',monospace;font-size:6.8px;letter-spacing:.02em;padding:2px 4px;border-radius:4px;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer;text-transform:uppercase}
+.cal-ev.e-rojo{background:color-mix(in srgb,var(--rojo) 18%,transparent);color:var(--rojo)}
+.cal-ev.e-ambar{background:color-mix(in srgb,var(--ambar) 16%,transparent);color:var(--ambar)}
+.cal-ev.e-verde{background:color-mix(in srgb,var(--verde) 15%,transparent);color:var(--verde)}
+.cal-ev.e-cian{background:color-mix(in srgb,var(--accent) 15%,transparent);color:var(--accent)}
+.cal-ev.e-azul{background:color-mix(in srgb,#5B7FDF 22%,transparent);color:#8FA8E8}
+.cal-ley{display:flex;gap:12px;flex-wrap:wrap;padding:0 14px 12px}
+.cal-ley span{display:flex;align-items:center;gap:5px;font-family:'JetBrains Mono',monospace;font-size:7.5px;letter-spacing:.08em;color:var(--text2);text-transform:uppercase}
+.cal-ley i{width:8px;height:8px;border-radius:3px;display:inline-block}
+/* opciones de renovacion */
+.ren-ops{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:10px 0}
+.ren-op{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:12px;cursor:pointer;text-align:center;transition:border-color .15s,transform .12s}
+.ren-op:hover{transform:translateY(-2px)}
+.ren-op.sel{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 8%,var(--panel))}
+.ren-op .m{font-family:'Outfit',sans-serif;font-weight:600;font-size:17px}
+.ren-op .d{font-size:10.5px;color:var(--text2);margin-top:2px}
+.ren-op .ah{font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--verde);margin-top:4px;text-transform:uppercase;letter-spacing:.06em}
+.plantilla-box{background:color-mix(in srgb,var(--accent) 7%,var(--panel));border:1px dashed color-mix(in srgb,var(--accent) 40%,transparent);border-radius:8px;padding:12px 14px;font-size:12.5px;font-style:italic}
 /* modales y expansion */
 .modal-ov{position:fixed;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(3px);z-index:100;display:none;align-items:flex-start;justify-content:center;padding:56px 16px;overflow-y:auto}
 .modal-ov.act{display:flex}
@@ -281,6 +307,11 @@ document.querySelectorAll('.modal-ov').forEach(function(ov){
   });});
 document.addEventListener('keydown',function(e){
   if(e.key==='Escape')document.querySelectorAll('.modal-ov.act').forEach(function(o){o.classList.remove('act')});});
+/* ---- opciones de renovacion ---- */
+document.querySelectorAll('.ren-ops').forEach(function(g){
+  g.querySelectorAll('.ren-op').forEach(function(o){o.addEventListener('click',function(e){
+    e.stopPropagation();
+    g.querySelectorAll('.ren-op').forEach(function(x){x.classList.remove('sel')});o.classList.add('sel');});});});
 /* ---- alertas expandibles ---- */
 document.querySelectorAll('.alerta-t').forEach(function(t){
   t.addEventListener('click',function(e){
@@ -312,7 +343,7 @@ function aviso(txt){var t=document.getElementById('demo-toast');
   t.textContent=txt;requestAnimationFrame(function(){t.style.opacity='1'});
   clearTimeout(window.__dt);window.__dt=setTimeout(function(){t.style.opacity='0'},2400);}
 document.addEventListener('click',function(e){
-  if(e.target.closest('.fchip,.seg,.flujo-item,.chat-item,#theme-btn,[data-modal],.modal-x,.alerta-t,.modal-ov'))return;
+  if(e.target.closest('.fchip,.seg,.flujo-item,.chat-item,#theme-btn,[data-modal],.modal-x,.alerta-t,.modal-ov,.ren-op,.cal-ev'))return;
   var a=e.target.closest('a'),b=e.target.closest('button');
   var muerto=(a&&(a.getAttribute('href')==='#'||a.getAttribute('href')===''))||(b&&!b.closest('a'));
   if(!muerto)return;e.preventDefault();
