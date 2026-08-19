@@ -136,6 +136,13 @@ table.t td.num{font-family:'JetBrains Mono',monospace;text-align:right}
 .diagrama svg{width:100%;height:auto;display:block}
 .diagrama text{font-family:'DM Sans',sans-serif}
 .diagrama .dlbl{font-family:'JetBrains Mono',monospace;letter-spacing:.1em;text-transform:uppercase}
+.tipbox{position:fixed;background:var(--elev);border:1px solid var(--line2);border-radius:8px;padding:6px 10px;font-size:11.5px;pointer-events:none;z-index:9999;opacity:0;transition:opacity .12s;box-shadow:var(--sombra);max-width:240px}
+[data-tip]{cursor:default}[data-tip]:hover{filter:brightness(1.18)}
+.grafico{padding:8px 16px 14px}
+.grafico svg{width:100%;height:auto;display:block}
+.grafico text,.mapa text{font-family:'DM Sans',sans-serif}
+.grafico .mlbl,.mapa .mlbl{font-family:'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase}
+.mapa{padding:8px 16px 14px}.mapa svg{width:100%;height:auto;display:block}
 @media(max-width:900px){.kpis,.kpis.k4{grid-template-columns:repeat(2,1fr)}.grid2,.grid3,.chat-grid,.rama{grid-template-columns:1fr}.chat-grid{height:auto}.main{padding:86px 16px 64px}}
 </style>
 </head><body>
@@ -232,6 +239,15 @@ document.querySelectorAll('.seg').forEach(function(seg){
     var det=seg.closest('.bloque');
     det.querySelectorAll('.vista').forEach(function(x){x.classList.toggle('act',x.getAttribute('data-vista')===v);});
     if(window.anime)anime({targets:det.querySelector('.vista.act'),opacity:[0,1],duration:300,easing:'linear'});});});});
+/* ---- tooltips de graficos ---- */
+var tip=null;
+document.querySelectorAll('[data-tip]').forEach(function(el){
+  el.addEventListener('mousemove',function(ev){
+    if(!tip){tip=document.createElement('div');tip.className='tipbox';document.body.appendChild(tip);}
+    tip.innerHTML=el.getAttribute('data-tip');
+    var x=Math.min(ev.clientX+14,window.innerWidth-250),y=ev.clientY-12;
+    tip.style.left=x+'px';tip.style.top=y+'px';tip.style.opacity='1';});
+  el.addEventListener('mouseleave',function(){if(tip)tip.style.opacity='0';});});
 /* vista inicial por URL (QA y enlaces directos) */
 if(/vista=diagrama/.test(location.search)){document.querySelectorAll('.seg button[data-vista=diagrama]').forEach(function(b){b.click()});}
 /* ---- aviso de demo ---- */
