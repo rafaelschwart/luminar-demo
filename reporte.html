@@ -562,8 +562,7 @@ document.querySelectorAll('[data-export-table]').forEach(function(b){
       return Array.prototype.map.call(tr.querySelectorAll('th,td'),function(c){
         return '"'+c.textContent.replace(/\s+/g,' ').trim().replace(/"/g,'""')+'"';
       }).join(',');
-    }).join('
-');
+    }).join('\n');
     var a=document.createElement('a');
     a.href='data:text/csv;charset=utf-8,%EF%BB%BF'+encodeURIComponent(csv);
     a.download=b.getAttribute('data-export-table')||'luminar-export.csv';
