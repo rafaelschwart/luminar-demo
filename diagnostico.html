@@ -110,9 +110,12 @@ table.t td.num{font-family:'JetBrains Mono',monospace;text-align:right}
 .pipeline-controls{display:grid;grid-template-columns:minmax(220px,1.6fr) repeat(5,minmax(120px,1fr));gap:8px;margin-top:22px}
 .pipeline-views{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:10px 0}
 .pipeline-view-buttons,.pipeline-mode{display:flex;gap:6px;flex-wrap:wrap}
-.pipeline-kanban{display:grid;grid-template-columns:repeat(4,minmax(220px,1fr));gap:10px;overflow-x:auto;padding-bottom:4px}
-.kanban-col{border:1px solid var(--line);background:var(--surface);min-height:150px}.kanban-col h2{font:10px 'JetBrains Mono',monospace;letter-spacing:.12em;text-transform:uppercase;margin:0;padding:10px 12px;background:var(--panel);border-bottom:1px solid var(--line)}
-.kanban-card{margin:8px;padding:10px;border:1px solid var(--line);border-left:2px solid var(--accent);background:var(--bg)}
+.pipeline-kanban{display:grid;grid-template-columns:repeat(6,minmax(196px,1fr));gap:10px;overflow-x:auto;padding-bottom:4px}
+.kanban-col{border:1px solid var(--line);background:var(--surface);min-height:170px;border-radius:var(--r);transition:border-color .12s,background .12s}.kanban-col h2{font:10px 'JetBrains Mono',monospace;letter-spacing:.12em;text-transform:uppercase;margin:0;padding:10px 12px;background:var(--panel);border-bottom:1px solid var(--line);border-radius:var(--r) var(--r) 0 0}
+.kanban-col.drag-over{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 6%,var(--surface))}
+.kanban-card{margin:8px;padding:10px;border:1px solid var(--line);background:var(--bg);border-radius:var(--r-sm);cursor:grab;transition:border-color .12s,transform .12s}
+.kanban-card:hover{border-color:color-mix(in srgb,var(--accent) 55%,transparent);transform:translateY(-1px)}
+.kanban-card.dragging{opacity:.45;cursor:grabbing}
 .kanban-card b{font-size:12px}.kanban-card span{display:block;color:var(--text2);font-size:10.5px;margin-top:4px}
 .pipeline-empty{border:1px dashed var(--line2);padding:28px 16px;text-align:center;color:var(--text2);margin-top:10px}
 /* calendario */
@@ -321,6 +324,67 @@ if(window.anime&&!/noanim/.test(location.search)&&!window.matchMedia('(prefers-r
 }
 /* ---- superficie de trabajo del pipeline ---- */
 var pipelineRows=Array.prototype.slice.call(document.querySelectorAll('tr[data-company][data-contact]'));
+/* la lista cerrada: columnas del kanban y chips por estado */
+var KGROUPS=['interesado','presentacion','seguimiento','no-interesado','cerrado','caido'];
+var KNAMES={interesado:'Interesado',presentacion:'Agendó presentación',seguimiento:'Seguimiento','no-interesado':'No interesado',cerrado:'Cerrado',caido:'Caído'};
+var KCHIP={interesado:['Interesado','c-verde'],presentacion:['Agendó presentación','c-ambar'],seguimiento:['Seguimiento','c-cian'],'no-interesado':['No interesado','c-gris'],cerrado:['Cerrado','c-verde'],caido:['Caído','c-rojo']};
+function fichaLog(ov,tipo,html){
+  var tl=ov&&ov.querySelector('ul.tl');if(!tl)return;
+  var ic={llamada:'call',correo:'mail',msj:'chat',flag:'flag',nota:'edit_note',cita:'event'};
+  var li=document.createElement('li');
+  li.innerHTML='<span class="ic"><span class="material-symbols-outlined">'+(ic[tipo]||'circle')+'</span></span><div style="flex:1">'+html+'</div><span class="fecha">ahora</span>';
+  tl.insertBefore(li,tl.firstChild);
+}
+function setLeadStage(cid,group){
+  var meta=KCHIP[group];if(!meta)return;
+  var row=document.querySelector('tr[data-modal="'+cid+'"]');
+  if(row){
+    row.dataset.stage=group;
+    var cell=row.children[4];if(cell)cell.innerHTML='<span class="chip '+meta[1]+'">'+meta[0]+'</span>';
+    if(typeof window.updatePipeline==='function')window.updatePipeline();
+  }
+  var ov=document.getElementById('modal-'+cid);
+  if(ov){
+    var hc=ov.querySelector('[data-estado-chip]');
+    if(hc){hc.textContent=meta[0];hc.className='chip '+meta[1];}
+    Array.prototype.forEach.call(ov.querySelectorAll('.ficha-estados [data-est]'),function(b){
+      var on=b.dataset.stageKey===group;
+      b.className='chip '+(on?b.dataset.color:'c-gris');
+      b.style.outline=on?'1px solid currentColor':'';
+    });
+    fichaLog(ov,'flag','Estado cambiado a <b>'+meta[0]+'</b>'+(group==='caido'?' · <span style="color:var(--rojo)">motivo obligatorio en producción</span>':'')+' · demo');
+  }
+  if(typeof aviso==='function')aviso('// ESTADO: '+meta[0].toUpperCase()+(group==='caido'?' · MOTIVO OBLIGATORIO':'')+' · DEMO');
+}
+/* clasificación clicable dentro de la ficha */
+document.querySelectorAll('.ficha-estados [data-est]').forEach(function(b){
+  b.addEventListener('click',function(e){
+    e.stopPropagation();
+    var ov=b.closest('.modal-ov');if(!ov)return;
+    setLeadStage(ov.id.replace('modal-',''),b.dataset.stageKey);
+  });
+});
+/* registrar seguimiento: plantillas + campo libre */
+document.querySelectorAll('.ficha-seg').forEach(function(box){
+  var tipo='nota';
+  box.querySelectorAll('[data-plantilla]').forEach(function(p){
+    p.addEventListener('click',function(e){
+      e.stopPropagation();tipo=p.dataset.plantilla;
+      box.querySelector('[data-seg-input]').value=p.dataset.txt;
+      box.querySelectorAll('[data-plantilla]').forEach(function(x){x.classList.remove('c-cian');x.classList.add('c-gris');});
+      p.classList.remove('c-gris');p.classList.add('c-cian');
+    });
+  });
+  var add=box.querySelector('[data-seg-add]');
+  if(add)add.addEventListener('click',function(e){
+    e.stopPropagation();
+    var inp=box.querySelector('[data-seg-input]');
+    var txt=inp.value.trim();if(!txt){inp.focus();return;}
+    fichaLog(box.closest('.modal-ov'),tipo,txt+' · <span style="color:var(--text2)">demo, no se guarda</span>');
+    inp.value='';
+    if(typeof aviso==='function')aviso('// SEGUIMIENTO REGISTRADO · DEMO');
+  });
+});
 function leadMatches(row,state){
   var text=(row.dataset.company+' '+row.dataset.contact).toLowerCase();
   return (!state.query||text.indexOf(state.query)!==-1) &&
@@ -339,21 +403,53 @@ if(pipelineRows.length){
   var pkanban=document.getElementById('pipeline-kanban');
   function renderKanban(visible){
     if(!pkanban)return;
-    var groups=['interesado','seguimiento','presentacion','cerrado-caido'];
-    var names={interesado:'Interesado',seguimiento:'Seguimiento',presentacion:'Presentación',"cerrado-caido":'Cerrado / Caído'};
-    pkanban.innerHTML=groups.map(function(group){
-      var cards=visible.filter(function(row){var stage=row.dataset.stage;return group==='cerrado-caido'?(stage==='cerrado'||stage==='caido'):stage===group;}).map(function(row){
-        return '<article class="kanban-card"><b>'+row.dataset.company+'</b><span>'+row.dataset.seller+' · '+row.dataset.lastContact+'</span><span>Próxima: '+row.dataset.nextAction+'</span></article>';
+    pkanban.innerHTML=KGROUPS.map(function(group){
+      var rows=visible.filter(function(row){return row.dataset.stage===group;});
+      var cards=rows.map(function(row){
+        return '<article class="kanban-card" draggable="true" data-kcid="'+row.dataset.modal+'" title="Clic: abrir ficha · Arrastrar: cambiar estado"><b>'+row.dataset.company+'</b><span>'+row.dataset.seller+' · '+row.dataset.lastContact+'</span><span>Próxima: '+(row.dataset.nextAction||'—')+'</span></article>';
       }).join('');
-      return '<section class="kanban-col"><h2>'+names[group]+' · '+(cards?visible.filter(function(row){var stage=row.dataset.stage;return group==='cerrado-caido'?(stage==='cerrado'||stage==='caido'):stage===group;}).length:0)+'</h2>'+cards+'</section>';
+      return '<section class="kanban-col" data-kgroup="'+group+'"><h2>'+KNAMES[group]+' · '+rows.length+'</h2>'+cards+'</section>';
     }).join('');
   }
   function updatePipeline(){
     var visible=[];
     pipelineRows.forEach(function(row){var show=leadMatches(row,pstate);row.hidden=!show;if(show)visible.push(row);});
-    if(pcount)pcount.textContent=visible.length+' DE 8 REGISTROS DE MUESTRA';
+    if(pcount)pcount.textContent=visible.length+' DE '+pipelineRows.length+' REGISTROS DE MUESTRA';
     if(pempty)pempty.hidden=visible.length!==0;
     renderKanban(visible);
+  }
+  window.updatePipeline=updatePipeline;
+  /* kanban: clic abre la ficha, arrastre mueve de columna */
+  if(pkanban){
+    var dragCid=null,dragT=0;
+    pkanban.addEventListener('click',function(e){
+      if(Date.now()-dragT<250)return;
+      var card=e.target.closest('.kanban-card');if(!card)return;
+      openModal(document.getElementById('modal-'+card.dataset.kcid),card);
+    });
+    pkanban.addEventListener('dragstart',function(e){
+      var card=e.target.closest('.kanban-card');if(!card)return;
+      dragCid=card.dataset.kcid;card.classList.add('dragging');
+      e.dataTransfer.effectAllowed='move';
+      try{e.dataTransfer.setData('text/plain',dragCid);}catch(err){}
+    });
+    pkanban.addEventListener('dragend',function(){
+      dragT=Date.now();
+      var c=pkanban.querySelector('.dragging');if(c)c.classList.remove('dragging');
+      Array.prototype.forEach.call(pkanban.querySelectorAll('.drag-over'),function(x){x.classList.remove('drag-over');});
+    });
+    pkanban.addEventListener('dragover',function(e){
+      var col=e.target.closest('.kanban-col');if(!col)return;
+      e.preventDefault();e.dataTransfer.dropEffect='move';
+      Array.prototype.forEach.call(pkanban.querySelectorAll('.drag-over'),function(x){if(x!==col)x.classList.remove('drag-over');});
+      col.classList.add('drag-over');
+    });
+    pkanban.addEventListener('drop',function(e){
+      var col=e.target.closest('.kanban-col');if(!col||!dragCid)return;
+      e.preventDefault();dragT=Date.now();
+      setLeadStage(dragCid,col.dataset.kgroup);
+      dragCid=null;
+    });
   }
   if(psearch)psearch.addEventListener('input',function(){pstate.query=this.value.trim().toLowerCase();updatePipeline();});
   document.querySelectorAll('[data-filter-field]').forEach(function(control){control.addEventListener('change',function(){pstate[control.dataset.filterField]=control.value;pstate.view='';updatePipeline();});});
