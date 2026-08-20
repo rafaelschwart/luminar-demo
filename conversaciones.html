@@ -35,6 +35,7 @@ html{overflow-y:scroll;scrollbar-gutter:stable}
 body{margin:0;background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;transition:background .25s,color .25s;overflow-x:hidden}
 a{color:inherit;text-decoration:none}
 :focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.no-ring:focus-visible,.no-ring:focus{outline:none!important}
 .sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
 [hidden]{display:none!important}
 .mono{font-family:'JetBrains Mono',monospace}
@@ -465,6 +466,41 @@ if(pipelineRows.length){
   });tab.addEventListener('keydown',function(e){if(e.key!=='ArrowLeft'&&e.key!=='ArrowRight')return;var tabs=Array.prototype.slice.call(document.querySelectorAll('[data-pipeline-mode]'));var i=tabs.indexOf(tab)+(e.key==='ArrowRight'?1:-1);tabs[(i+tabs.length)%tabs.length].focus();});});
   updatePipeline();
 }
+/* ---- equipo: metas mensuales editables por la gerente ---- */
+var AVANCE_MES=0.58; /* dia 18 de 31 */
+function estadoMeta(real,meta){
+  if(meta<=0)return['SIN META','c-gris'];
+  if(real>=meta)return['META CUMPLIDA','c-verde'];
+  var r=real/(meta*AVANCE_MES);
+  if(r>=0.9)return['VA LLEGANDO','c-verde'];
+  if(r>=0.6)return['EN RIESGO','c-ambar'];
+  return['NO LLEGA','c-rojo'];
+}
+document.querySelectorAll('[data-meta-row]').forEach(function(row){
+  var inp=row.querySelector('[data-meta-input]');
+  var real=parseFloat(row.dataset.real)||0;
+  function rec(){
+    var meta=parseFloat(inp&&inp.value)||0;
+    var bar=row.querySelector('.barra div');
+    if(bar)bar.style.width=(meta>0?Math.min(100,Math.round(real/meta*100)):0)+'%';
+    var est=estadoMeta(real,meta);
+    var ch=row.querySelector('[data-meta-chip]');
+    if(ch){ch.textContent=est[0];ch.className='chip '+est[1];}
+    var pc=row.querySelector('[data-meta-pct]');
+    if(pc)pc.textContent=(meta>0?Math.round(real/meta*100):0)+'% de la meta';
+    var pr=row.querySelector('[data-meta-proy]');
+    if(pr)pr.textContent=Math.round(real/AVANCE_MES).toLocaleString('en-US');
+  }
+  if(inp){inp.addEventListener('input',rec);rec();}
+});
+/* ---- reportes: selector de anunciante ---- */
+var repSel=document.getElementById('rep-cliente');
+if(repSel){
+  repSel.addEventListener('change',function(){
+    document.querySelectorAll('[data-rep]').forEach(function(d){d.hidden=d.dataset.rep!==repSel.value;});
+    if(typeof aviso==='function')aviso('// REPORTE DE '+repSel.options[repSel.selectedIndex].text.split('·')[0].trim().toUpperCase()+' · DATOS SIMULADOS');
+  });
+}
 /* ---- conversaciones: cambio de hilo y filtro de canal ---- */
 var citems=document.querySelectorAll('.chat-item');
 function abrirChat(id){
@@ -505,6 +541,18 @@ var lastModalTrigger=null;
 var kbNav=false;
 document.addEventListener('keydown',function(e){if(e.key==='Tab')kbNav=true;},true);
 document.addEventListener('mousedown',function(){kbNav=false;},true);
+/* los selects e inputs siempre marcan :focus-visible en Chrome: sin teclado, sin anillo */
+document.querySelectorAll('select,input,textarea').forEach(function(el){
+  el.addEventListener('focus',function(){if(!kbNav)el.classList.add('no-ring');});
+  el.addEventListener('blur',function(){el.classList.remove('no-ring');});
+  el.addEventListener('keydown',function(e){if(e.key==='Tab')el.classList.remove('no-ring');});
+});
+/* los botones sueltan el foco al terminar el clic con mouse */
+document.addEventListener('click',function(e){
+  if(kbNav)return;
+  var b=e.target.closest('button,.chip,a.btn');
+  if(b&&typeof b.blur==='function')setTimeout(function(){b.blur();},0);
+},true);
 function modalFocusables(ov){return Array.prototype.slice.call(ov.querySelectorAll('a[href],button:not([disabled]),input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])'));}
 function openModal(m,trigger){
   if(!m)return;lastModalTrigger=trigger||document.activeElement;m.classList.add('act');
