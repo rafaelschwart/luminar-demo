@@ -2,18 +2,20 @@
 <html lang="es"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>LUMINAR &middot; Demo</title>
 <script>(function(){var t=null;try{t=localStorage.getItem("luminar-theme")}catch(e){}document.documentElement.setAttribute("data-theme",t==="light"?"light":"dark");})();</script>
+<link rel="icon" href="assets/lmnr.jpg"/>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700&family=DM+Sans:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
-<style>:root{--bg:#111111;--surface:#17181A;--panel:#1F2124;--line:#2C2F34;--text:#F0F2F3;--text2:#8A9196;--accent:#7AC4DC}
+<style>:root{--bg:#111111;--surface:#17181A;--panel:#1F2124;--line:#2C2F34;--text:#F0F2F3;--text2:#8A9196;--accent:#7AC4DC;--r:14px;--r-sm:9px;--r-pill:999px}
 [data-theme="light"]{--bg:#E9EDF1;--surface:#FFFFFF;--panel:#DEE4EA;--line:#D3DAE1;--text:#0F1417;--text2:#48545E;--accent:#186F8C}
 body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;margin:0;min-height:100dvh;display:flex;align-items:center;justify-content:center}
 .caja{max-width:680px;width:100%;padding:48px 32px}
 .lbl{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.18em;color:var(--text2);text-transform:uppercase}
 h1{font-family:'Outfit',sans-serif;font-weight:700;font-size:36px;letter-spacing:-.02em;margin:10px 0 4px}h1 em{color:var(--accent)}
 .mono{font-family:'JetBrains Mono',monospace}
-.fila-i{display:flex;align-items:center;gap:18px;padding:14px 18px;border:1px solid var(--line);border-radius:3px;margin-top:10px;text-decoration:none;color:var(--text);background:var(--surface);transition:background .12s}
+.fila-i{display:flex;align-items:center;gap:18px;padding:14px 18px;border:1px solid var(--line);border-radius:var(--r);margin-top:10px;text-decoration:none;color:var(--text);background:var(--surface);transition:background .12s}
 .fila-i:hover{background:var(--panel)}.num{color:var(--accent);font-size:13px}.tit{font-family:'Outfit',sans-serif;font-weight:500;font-size:16px;flex:1}
-img.logo{width:52px;height:52px;border-radius:2px;display:block;margin-bottom:18px}
-.pie{margin-top:26px;display:flex;justify-content:space-between}</style></head>
+img.logo{width:52px;height:52px;border-radius:var(--r-sm);display:block;margin-bottom:18px}
+.pie{margin-top:26px;display:flex;justify-content:space-between}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}</style></head>
 <body><div class="caja">
 <img class="logo" src="assets/lmnr.jpg" width="52" height="52" alt="Monograma LMNR"/>
 <p class="lbl">// LUMINAR &middot; DEMOSTRACIÓN INTERACTIVA &middot; <span id="fecha-hoy"></span></p>
@@ -22,4 +24,8 @@ img.logo{width:52px;height:52px;border-radius:2px;display:block;margin-bottom:18
 <p style="color:var(--text2);font-size:14px;margin:0 0 22px">Ocho módulos. Recorrido de arriba hacia abajo.</p>
 <a class="fila-i" href="centro-de-mando.html"><span class="num mono">00</span><span class="tit">Centro de Mando</span><span class="sub-i lbl" style="font-size:9px">// TODA LA OPERACIÓN</span></a><a class="fila-i" href="pipeline.html"><span class="num mono">01</span><span class="tit">Pipeline comercial</span><span class="sub-i lbl" style="font-size:9px">// PRÓXIMA ACCIÓN</span></a><a class="fila-i" href="conversaciones.html"><span class="num mono">02</span><span class="tit">Conversaciones</span><span class="sub-i lbl" style="font-size:9px">// WHATSAPP &middot; CORREO</span></a><a class="fila-i" href="equipo.html"><span class="num mono">03</span><span class="tit">Equipo</span><span class="sub-i lbl" style="font-size:9px">// PANEL POR VENDEDORA</span></a><a class="fila-i" href="automatizaciones.html"><span class="num mono">04</span><span class="tit">Automatizaciones</span><span class="sub-i lbl" style="font-size:9px">// FLUJOS</span></a><a class="fila-i" href="ocupacion.html"><span class="num mono">05</span><span class="tit">Ocupación y cobranza</span><span class="sub-i lbl" style="font-size:9px">// INVENTARIO</span></a><a class="fila-i" href="reporte.html"><span class="num mono">06</span><span class="tit">Reporte al anunciante</span><span class="sub-i lbl" style="font-size:9px">// PRUEBA DE ENTREGA</span></a><a class="fila-i" href="diagnostico.html"><span class="num mono">07</span><span class="tit">Diagnóstico del archivo</span><span class="sub-i lbl" style="font-size:9px">// EXPO CLEAN &middot; 1,149</span></a>
 <div class="pie"><span class="lbl">// LUMINAR &middot; OPERACIONES</span><span class="lbl" style="color:var(--text2)">// SISTEMA POR ARQENTIA</span></div>
-</div></body></html>
+</div><script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
+<script>(function(){if(!window.anime||window.matchMedia('(prefers-reduced-motion: reduce)').matches||/noanim/.test(location.search))return;
+var items=document.querySelectorAll('.logo,.caja>p,.caja>h1,.fila-i,.pie');
+window.anime({targets:items,opacity:[0,1],translateY:[14,0],delay:window.anime.stagger(45),duration:520,easing:'easeOutCubic'});
+document.querySelectorAll('.fila-i').forEach(function(row){row.addEventListener('pointerenter',function(){window.anime.remove(row);window.anime({targets:row,translateX:5,duration:150,easing:'easeOutQuad'});});row.addEventListener('pointerleave',function(){window.anime.remove(row);window.anime({targets:row,translateX:0,duration:180,easing:'easeOutQuad'});});});})();</script></body></html>
