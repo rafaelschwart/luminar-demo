@@ -504,6 +504,10 @@ document.querySelectorAll('.seg').forEach(function(seg){
     if(window.anime)anime({targets:det.querySelector('.vista.act'),opacity:[0,1],duration:300,easing:'linear'});});});});
 /* ---- modales accesibles ---- */
 var lastModalTrigger=null;
+/* el anillo de foco solo se restaura si el usuario navega con teclado */
+var kbNav=false;
+document.addEventListener('keydown',function(e){if(e.key==='Tab')kbNav=true;},true);
+document.addEventListener('mousedown',function(){kbNav=false;},true);
 function modalFocusables(ov){return Array.prototype.slice.call(ov.querySelectorAll('a[href],button:not([disabled]),input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])'));}
 function openModal(m,trigger){
   if(!m)return;lastModalTrigger=trigger||document.activeElement;m.classList.add('act');
@@ -512,7 +516,8 @@ function openModal(m,trigger){
 }
 function closeModal(ov){
   if(!ov)return;ov.classList.remove('act');
-  if(lastModalTrigger&&typeof lastModalTrigger.focus==='function')lastModalTrigger.focus();
+  if(kbNav&&lastModalTrigger&&typeof lastModalTrigger.focus==='function')lastModalTrigger.focus();
+  else if(document.activeElement&&ov.contains(document.activeElement))document.activeElement.blur();
   lastModalTrigger=null;
 }
 document.querySelectorAll('[data-modal]').forEach(function(el){
@@ -520,7 +525,40 @@ document.querySelectorAll('[data-modal]').forEach(function(el){
     if(e.target.closest('a[href]:not([href="#"])'))return;
     e.preventDefault();e.stopPropagation();
     var m=document.getElementById('modal-'+el.getAttribute('data-modal'));
+    /* si ya hay un modal abierto (p. ej. COBRADO), se cambia en el sitio */
+    var activo=document.querySelector('.modal-ov.act');
+    if(activo&&activo!==m)activo.classList.remove('act');
     openModal(m,el);
+  });});
+/* botones de demostración con respuesta específica, y registro opcional en la ficha */
+document.querySelectorAll('[data-aviso]').forEach(function(b){
+  b.addEventListener('click',function(e){
+    e.preventDefault();e.stopPropagation();
+    var log=b.getAttribute('data-log');
+    if(log&&typeof fichaLog==='function'){
+      var ov=b.closest('.modal-ov');
+      var sep=log.indexOf(':');
+      if(ov&&sep>0)fichaLog(ov,log.slice(0,sep),log.slice(sep+1)+' · <span style="color:var(--text2)">demo</span>');
+    }
+    if(typeof aviso==='function')aviso(b.getAttribute('data-aviso'));
+  });});
+/* exportar tabla a CSV de verdad */
+document.querySelectorAll('[data-export-table]').forEach(function(b){
+  b.addEventListener('click',function(e){
+    e.preventDefault();e.stopPropagation();
+    var tabla=b.closest('.bloque');tabla=tabla&&tabla.querySelector('table');
+    if(!tabla)return;
+    var csv=Array.prototype.map.call(tabla.querySelectorAll('tr'),function(tr){
+      return Array.prototype.map.call(tr.querySelectorAll('th,td'),function(c){
+        return '"'+c.textContent.replace(/\s+/g,' ').trim().replace(/"/g,'""')+'"';
+      }).join(',');
+    }).join('
+');
+    var a=document.createElement('a');
+    a.href='data:text/csv;charset=utf-8,%EF%BB%BF'+encodeURIComponent(csv);
+    a.download=b.getAttribute('data-export-table')||'luminar-export.csv';
+    document.body.appendChild(a);a.click();a.remove();
+    if(typeof aviso==='function')aviso('// CSV DESCARGADO · DATOS DE MUESTRA');
   });});
 document.querySelectorAll('.modal-ov').forEach(function(ov){
   ov.addEventListener('click',function(e){
