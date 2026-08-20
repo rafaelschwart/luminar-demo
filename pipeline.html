@@ -438,6 +438,8 @@ document.querySelectorAll('.modal-ov').forEach(function(ov){
   ov.addEventListener('click',function(e){
     if(e.target===ov||e.target.closest('.modal-x')){e.stopPropagation();closeModal(ov);}
   });});
+/* deep-link: ocupacion.html#sitio-ccct abre el modal directamente */
+if(location.hash){var hm=document.getElementById('modal-'+location.hash.slice(1));if(hm)setTimeout(function(){openModal(hm,null);},150);}
 document.addEventListener('keydown',function(e){
   var active=document.querySelector('.modal-ov.act');
   if(e.key==='Escape'){
